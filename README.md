@@ -49,8 +49,6 @@ Setup secretmanager
 
 Setup SOPS for secret encryption
 
-Make seed.py to read values from ENV variables
-
 Setup DNS
 
 Setup Certificate Manager

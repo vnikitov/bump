@@ -14,6 +14,10 @@ output "vpc_private_id" {
   value = module.vpc.private_subnets
 }
 
+output "vpc_private_cidrs" {
+  value = module.vpc.private_subnets_cidr_blocks
+}
+
 output "lb_arn" {
   value = aws_lb.lb-bump.arn
 }

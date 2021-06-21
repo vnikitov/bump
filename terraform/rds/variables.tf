@@ -24,3 +24,7 @@ locals {
 variable "account_region" {
   default = "eu-central-1"
 }
+
+variable "db_username" {}
+
+variable "db_password" {}

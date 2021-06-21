@@ -205,7 +205,7 @@ resource "aws_security_group" "allow_http" {
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["10.55.1.0/24", "10.55.2.0/24", "10.55.3.0/24"]
+    cidr_blocks      = data.terraform_remote_state.core.outputs.vpc_private_cidrs
     ipv6_cidr_blocks = ["::/0"]
   }
 
