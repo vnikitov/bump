@@ -1,0 +1,8 @@
+FROM python:3.8
+
+WORKDIR /app
+RUN pip install pandas Faker sqlalchemy mysqlclient
+COPY seed.py .
+RUN chmod +x seed.py
+
+ENTRYPOINT ["python", "seed.py"]
