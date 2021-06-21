@@ -54,3 +54,16 @@ Setup DNS
 Setup Certificate Manager
 
 TLS setup for the frontend
+
+## Security Considerations
+
+1. Web and Worker are located in private subnet.
+2. We have separate Database Subnet. Public access is disabled and the traffic to the RDS could only originate from the private netowrk.
+3. Enctrypted database
+4. Encrypted storage (if applicable)
+
+Security TODO
+
+In order to add additional leyer of security all access to the sevices will be trough VPN.
+Encryption in transit. All traffic should be use TLS/SSL connection. Use encrypted connection to the RDS instance.
+Run trough AWS well-architected
