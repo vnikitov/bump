@@ -1,7 +1,7 @@
 FROM python:3.8
 
 WORKDIR /app
-RUN pip install pandas Faker sqlalchemy mysqlclient
+RUN pip install pymysql
 COPY seed.py .
 RUN chmod +x seed.py
 
