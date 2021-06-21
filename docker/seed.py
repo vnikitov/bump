@@ -1,7 +1,14 @@
 import pymysql
+import os
 
-con = pymysql.connect(host='bump.c7jtcbmjqu7g.eu-central-1.rds.amazonaws.com', user='admins',
-                  password='strojg&dsgh342', database='bump', port=21321)
+hostname = os.environ['MYSQL_HOST']
+username = os.environ['MYSQL_USER']
+password = os.environ['MYSQL_PASSWORD']
+dbname = os.environ['MYSQL_PASSWORD']
+dbport = os.environ['MYSQL_PORT']
+
+con = pymysql.connect(host=hostname, user=username,
+                      password=password, database=dbname, port=dbport)
 con.autocommit = True
 cur = con.cursor()
 
