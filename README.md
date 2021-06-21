@@ -42,3 +42,11 @@ Cloudwatch logs groups
 ## Initial setup
 
 ### Buld docker images
+
+## TODO
+
+Setup secretmanager
+
+Setup SOPS for secret encryption
+
+Make seed.py to read values from ENV variables
