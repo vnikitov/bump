@@ -131,9 +131,7 @@ resource "aws_ecs_service" "worker" {
   cluster                            = aws_ecs_cluster.worker.id
   task_definition                    = aws_ecs_task_definition.worker.arn
   desired_count                      = var.service_desired_count
-  deployment_minimum_healthy_percent = 50
-  deployment_maximum_percent         = 200
-  health_check_grace_period_seconds  = 60
+
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
 
@@ -141,16 +139,6 @@ resource "aws_ecs_service" "worker" {
     security_groups  = [aws_security_group.allow_http.id]
     subnets          = data.terraform_remote_state.core.outputs.vpc_private_id
     assign_public_ip = false
-  }
-
-  load_balancer {
-    target_group_arn = data.terraform_remote_state.core.outputs.aws_alb_target_group_arn
-    container_name   = "worker-${var.name}-container-${var.env}"
-    container_port   = var.worker_container_port
-  }
-
-  lifecycle {
-    ignore_changes = [task_definition, desired_count]
   }
 }
 

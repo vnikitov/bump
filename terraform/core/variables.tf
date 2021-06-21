@@ -51,3 +51,11 @@ variable "database_subnets" {
   description = "List of CIDR blocks for database subnets"
   default = ["10.55.21.0/24", "10.55.22.0/24", "10.55.23.0/24"]
 }
+
+variable "ecr_repository" {
+  type = any
+  default = {
+    bump-web    = "bump-web"
+    bump-worker = "bump-worker"
+  }
+}

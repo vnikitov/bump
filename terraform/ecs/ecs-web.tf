@@ -148,10 +148,6 @@ resource "aws_ecs_service" "main" {
     container_name   = "${var.name}-container-${var.env}"
     container_port   = var.container_port
   }
-
-  lifecycle {
-    ignore_changes = [task_definition, desired_count]
-  }
 }
 
 resource "aws_appautoscaling_target" "ecs_target" {

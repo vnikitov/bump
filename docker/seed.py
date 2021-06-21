@@ -18,6 +18,6 @@ for _ in range(100):
 
 df_fake_data = pd.DataFrame(fake_data)
 
-engine = create_engine('mysql://root:@localhost/testdb', echo=False)
+engine = create_engine('mysql://admins:strojg&dsgh342@bump.c7jtcbmjqu7g.eu-central-1.rds.amazonaws.com:21321/bump', echo=False)
 
 df_fake_data.to_sql('user', con=engine, index=False)

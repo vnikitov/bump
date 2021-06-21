@@ -49,7 +49,7 @@ variable "container_memory" {
 
 variable "container_image" {
   description = "Docker image to be launched"
-  default     = "nginx"
+  default     = "247528355866.dkr.ecr.eu-central-1.amazonaws.com/bump-web"
 }
 
 variable "service_desired_count" {
@@ -75,18 +75,10 @@ variable "worker_container_memory" {
 
 variable "worker_container_image" {
   description = "Docker image to be launched"
-  default     = "nginx"
+  default     = "247528355866.dkr.ecr.eu-central-1.amazonaws.com/bump-worker"
 }
 
 variable "worker_service_desired_count" {
-  default     = "2"
-  description = "Number of services running in parallel"
-}
-
-variable "ecr_repository" {
-  type = any
-  default = {
-    bump-web    = "bump-web"
-    bump-worker = "bump-worker"
-  }
+  default     = "1"
+  description = "Number of services running"
 }
