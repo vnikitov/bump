@@ -32,27 +32,27 @@ variable "name" {
 }
 
 # Web variables
-variable "container_port" {
+variable "web_container_port" {
   description = "Port of container"
   default     = 80
 }
 
-variable "container_cpu" {
+variable "web_container_cpu" {
   default     = 512
   description = "The number of cpu units used by the task"
 }
 
-variable "container_memory" {
+variable "web_container_memory" {
   default     = 1024
   description = "The amount (in MiB) of memory used by the task"
 }
 
-variable "container_image" {
+variable "web_container_image" {
   description = "Docker image to be launched"
   default     = "247528355866.dkr.ecr.eu-central-1.amazonaws.com/bump-web"
 }
 
-variable "service_desired_count" {
+variable "web_service_desired_count" {
   default     = "2"
   description = "Desired count of services running"
 }

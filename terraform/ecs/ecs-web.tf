@@ -1,5 +1,5 @@
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "${var.name}-ecsTaskExecutionRole"
+resource "aws_iam_role" "web_ecs_task_execution_role" {
+  name = "web-${var.name}-ecsTaskExecutionRole"
 
   assume_role_policy = <<EOF
 {
@@ -18,8 +18,8 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 EOF
 }
 
-resource "aws_iam_role" "ecs_task_role" {
-  name = "${var.name}-ecsTaskRole"
+resource "aws_iam_role" "web_cs_task_role" {
+  name = "web-${var.name}-ecsTaskRole"
 
   assume_role_policy = <<EOF
 {
@@ -60,8 +60,8 @@ EOF
 #}
 
 
-resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attachment" {
-  role       = aws_iam_role.ecs_task_execution_role.name
+resource "aws_iam_role_policy_attachment" "web-ecs-task-execution-role-policy-attachment" {
+  role       = aws_iam_role.web_ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -70,39 +70,39 @@ resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attach
 #  policy_arn = aws_iam_policy.secrets.arn
 #}
 
-resource "aws_cloudwatch_log_group" "main" {
-  name = "/ecs/${var.name}-task-${var.env}"
+resource "aws_cloudwatch_log_group" "web" {
+  name = "/ecs/web-${var.name}-task-${var.env}"
 
   tags = merge(local.common_tags,
     {
-      Name = "${var.name}-task-${var.env}"
+      Name = "web-${var.name}-task-${var.env}"
     },
   )
 }
 
-resource "aws_ecs_task_definition" "main" {
-  family                   = "${var.name}-task-${var.env}"
+resource "aws_ecs_task_definition" "web" {
+  family                   = "web-${var.name}-task-${var.env}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.container_cpu
-  memory                   = var.container_memory
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = aws_iam_role.ecs_task_role.arn
+  cpu                      = var.web_container_cpu
+  memory                   = var.web_container_memory
+  execution_role_arn       = aws_iam_role.web_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.web_ecs_task_role.arn
 
   container_definitions = jsonencode([{
-    name        = "${var.name}-container-${var.env}"
+    name        = "web-${var.name}-container-${var.env}"
     image       = "${var.container_image}:latest"
     essential   = true
     #environment = var.container_environment
     portMappings = [{
       protocol      = "tcp"
-      containerPort = var.container_port
-      hostPort      = var.container_port
+      containerPort = var.web_container_port
+      hostPort      = var.web_container_port
     }]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        awslogs-group         = aws_cloudwatch_log_group.main.name
+        awslogs-group         = aws_cloudwatch_log_group.web.name
         awslogs-stream-prefix = "ecs"
         awslogs-region        = var.region
       }
@@ -112,16 +112,16 @@ resource "aws_ecs_task_definition" "main" {
 
   tags = merge(local.common_tags,
     {
-      Name = "${var.name}-task-${var.env}"
+      Name = "web-${var.name}-task-${var.env}"
     },
   )
 }
 
-resource "aws_ecs_cluster" "main" {
-  name = "${var.name}-cluster-${var.env}"
+resource "aws_ecs_cluster" "web" {
+  name = "web-${var.name}-cluster-${var.env}"
   tags = merge(local.common_tags,
     {
-      Name = "${var.name}-task-${var.env}"
+      Name = "web-${var.name}-task-${var.env}"
     },
   )
 }
@@ -130,7 +130,7 @@ resource "aws_ecs_service" "main" {
   name                               = "${var.name}-service-${var.env}"
   cluster                            = aws_ecs_cluster.main.id
   task_definition                    = aws_ecs_task_definition.main.arn
-  desired_count                      = var.service_desired_count
+  desired_count                      = var.web_service_desired_count
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   health_check_grace_period_seconds  = 60
@@ -205,7 +205,7 @@ resource "aws_security_group" "allow_http" {
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = ["10.55.1.0/24", "10.55.2.0/24", "10.55.3.0/24"]
     ipv6_cidr_blocks = ["::/0"]
   }
 

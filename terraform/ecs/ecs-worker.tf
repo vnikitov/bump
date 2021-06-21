@@ -130,7 +130,7 @@ resource "aws_ecs_service" "worker" {
   name                               = "worker-${var.name}-service-${var.env}"
   cluster                            = aws_ecs_cluster.worker.id
   task_definition                    = aws_ecs_task_definition.worker.arn
-  desired_count                      = var.service_desired_count
+  desired_count                      = var.worker_service_desired_count
 
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
@@ -191,15 +191,6 @@ resource "aws_security_group" "worker_allow_http" {
   name        = "worker_allow_http"
   description = "Allow TLS inbound traffic"
   vpc_id      = data.terraform_remote_state.core.outputs.vpc_id
-
-  ingress {
-    description      = "Allow 80"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
 
   egress {
     from_port        = 0
