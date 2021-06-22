@@ -41,6 +41,40 @@ Cloudwatch logs groups
 
 ## Initial setup
 
+### Infrastructure as a code
+
+In order to buld the initial infrastructure resources we are using Terraform. Terraform is a tool for building, changing, and versioning infrastructure
+safely and efficiently. Terraform can manage existing and popular service providers as well as custom.
+
+Terraform setup uses different states.
+
+In order to proer run the terraform we need fist apply `./terraform/core` folder.
+
+#### Prerequisites
+
+To use this repository and interact with the AWS, you need to do the following:
+
+1. Install and configure Terraform
+
+2. Create an access key for your Santiment AWS account and configure your local AWS profile. You need the following entry in ~/.aws
+/credentials :
+
+```sh
+[AWS_PROFILE]
+aws_access_key_id=XXXX
+aws_secret_access_key=XXXX
+```
+
+3. To check whether terraform is configured, go to the one of the /terraform/<core, rds, ecs> folders in this repository and execute:
+
+IMPORTANAT: First you need to initaliazie and apply the `core` folder
+
+```sh
+terraform init
+terraform plan
+terraform apply
+```
+
 ### Buld docker images
 
 ## TODO
@@ -55,15 +89,30 @@ Setup Certificate Manager
 
 TLS setup for the frontend
 
-## Security Considerations
+## Security
 
-1. Web and Worker are located in private subnet.
-2. We have separate Database Subnet. Public access is disabled and the traffic to the RDS could only originate from the private netowrk.
-3. Enctrypted database
-4. Encrypted storage (if applicable)
+Web and Worker are located in private subnet.
 
-Security TODO
+We have separate Database Subnet. Public access is disabled and the traffic to the RDS could only originate from the private netowrk.
+
+Enctrypted database
+
+Encrypted storage (if applicable)
+
+Security groups added to ECS and RDS
+
+Scan Docker images on push
+
+### Security Conciderations
 
 In order to add additional leyer of security all access to the sevices will be trough VPN.
-Encryption in transit. All traffic should be use TLS/SSL connection. Use encrypted connection to the RDS instance.
-Run trough AWS well-architected
+
+Encryption in transit. All traffic should use TLS/SSL connection. Use encrypted connection to the RDS instance.
+
+Run trough AWS well-architected. This will hepl to identify gaps in the securite best practices.
+
+Configure Cloudflare for DDoS protection.
+
+## DOCKER
+
+[Docker](./docker/README.md)

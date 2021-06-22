@@ -1,5 +1,5 @@
-import pymysql
 import os
+import pymysql
 
 hostname = os.environ['MYSQL_HOST']
 username = os.environ['MYSQL_USER']
