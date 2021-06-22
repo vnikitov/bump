@@ -49,7 +49,7 @@ variable "web_container_memory" {
 
 variable "web_container_image" {
   description = "Docker image to be launched"
-  default     = "247528355866.dkr.ecr.eu-central-1.amazonaws.com/bump-web"
+  default     = "<ACCOUNT_ID>.dkr.ecr.eu-central-1.amazonaws.com/bump-web"
 }
 
 variable "web_service_desired_count" {
@@ -75,7 +75,7 @@ variable "worker_container_memory" {
 
 variable "worker_container_image" {
   description = "Docker image to be launched"
-  default     = "247528355866.dkr.ecr.eu-central-1.amazonaws.com/bump-worker"
+  default     = "<ACCOUNT_ID>.dkr.ecr.eu-central-1.amazonaws.com/bump-worker"
 }
 
 variable "worker_service_desired_count" {
